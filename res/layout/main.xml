@@ -10,8 +10,8 @@
         android:gravity="center"
         android:padding="20dip"
         android:text="Lorem ipsum dolor sit amet"
-        android:textSize="20dp"
         android:textColor="@android:color/white"
+        android:textSize="20dp"
         android:textStyle="bold" />
 
     <ImageButton
@@ -21,4 +21,11 @@
         android:layout_centerInParent="true"
         android:background="@drawable/red_button" />
 
+    <FrameLayout
+        android:id="@+id/ads"
+        android:background="@android:color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" >
+    </FrameLayout>
 </RelativeLayout>
