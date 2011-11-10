@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Hello World, MainActivity!</string>
     <string name="app_name">The Really Big Red Button That Does Nothing</string>
 
+    <string-array name="button_texts">
+        <item>Didn\'t you read the title?</item>
+        <item>Did you understand it?</item>
+        <item>Please stop pressing me</item>
+        <item>Seriously, STOP!</item>
+        <item>This is getting old</item>
+		<item>Sigh</item>
+		<item>That\'s it.</item>
+		<item>I\'ve had enough. Go away!</item>
+		<item>You can keep pressing me, but nothing will happen.</item>
+		<item>That\'s right. Still nothing.</item>
+    </string-array>
 </resources>
