@@ -1,19 +1,35 @@
 package dk.trifork.geeknight.bigredbutton;
 
-import com.adwhirl.AdWhirlLayout;
-import com.adwhirl.AdWhirlManager;
-import com.adwhirl.AdWhirlTargeting;
-import com.adwhirl.AdWhirlLayout.AdWhirlInterface;
-
-import android.app.Activity;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-public class MainActivity extends Activity implements android.view.View.OnClickListener, AdWhirlInterface {
-    
+import com.adwhirl.AdWhirlLayout;
+import com.adwhirl.AdWhirlLayout.AdWhirlInterface;
+import com.adwhirl.AdWhirlManager;
+import com.adwhirl.AdWhirlTargeting;
+
+import dk.trifork.geeknight.billing.Consts.PurchaseState;
+import dk.trifork.geeknight.billing.Consts.ResponseCode;
+import dk.trifork.geeknight.billing.InAppBillingActivity;
+import dk.trifork.geeknight.billing.PurchaseDatabase;
+import dk.trifork.geeknight.billing.requests.RequestPurchase;
+import dk.trifork.geeknight.billing.requests.RestoreTransactions;
+
+public class MainActivity extends InAppBillingActivity implements android.view.View.OnClickListener, AdWhirlInterface {
+
+	private static final int OPTION_RESTORE = 0;
+	private static final int OPTION_PURCHASE = 1;
+	private static final int OPTION_TEST_PURCHASED = 2;
+	private static final int OPTION_TEST_CANCELED = 3;
+	private static final int OPTION_TEST_REFUNDED = 4;
+	private static final int OPTION_TEST_ITEM_UNAVAILABLE = 5;
+	
 	private TextView buttonText;
 	private ImageButton button;
 	private String[] textList;
@@ -36,6 +52,12 @@ public class MainActivity extends Activity implements android.view.View.OnClickL
         // Setup event handlers
         button.setOnClickListener(this);
         
+        // Replace button with a green if upgrade has been bought
+        if(isPurchased("upgrade")) {
+        	button.setBackgroundDrawable(getResources().getDrawable(R.drawable.green_button));
+        }
+        	
+        // Initialize ads
         initializeAdWhirl();
     }
 
@@ -71,9 +93,77 @@ public class MainActivity extends Activity implements android.view.View.OnClickL
 		
 		container.addView(adsLayout);		
 	}
+	
+	
+	
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		// TODO Auto-generated method stub
+		return super.onPrepareOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+
+		menu.add(0, OPTION_RESTORE, 0, "Restore");
+		menu.add(0, OPTION_PURCHASE, 0, "Upgrade");
+		menu.add(0, OPTION_TEST_PURCHASED, 0, "android.test.purchased");
+		menu.add(0, OPTION_TEST_CANCELED, 0, "android.test.canceled");
+		menu.add(0, OPTION_TEST_REFUNDED, 0, "android.test.refunded");
+		menu.add(0, OPTION_TEST_ITEM_UNAVAILABLE, 0, "android.test.item_unavailable");
+
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		
+		switch(item.getItemId()) {
+		case OPTION_RESTORE: restoreDatabase();
+		case OPTION_PURCHASE: requestPurchase("");
+		case OPTION_TEST_PURCHASED: requestPurchase("android.test.purchased"); break;
+		case OPTION_TEST_CANCELED: requestPurchase("android.test.canceled"); break;
+		case OPTION_TEST_REFUNDED: requestPurchase("android.test.refunded"); break;
+		case OPTION_TEST_ITEM_UNAVAILABLE: requestPurchase("android.test.item_unavailable"); break;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+
+		return true;
+	}
+	
 
 	@Override
 	public void adWhirlGeneric() {
 		// Do nothing
 	}
+
+	@Override
+	protected void onBillingSupported(boolean supported) {
+	}
+
+	@Override
+	protected void onPurchaseStateChange(PurchaseState purchaseState,
+			String itemId, int quantity, long purchaseTime,
+			String developerPayload) {
+		
+		if (itemId.equals("android.test.purchased") && purchaseState == PurchaseState.PURCHASED) {
+        	button.setBackgroundDrawable(getResources().getDrawable(R.drawable.green_button));
+		}
+	}
+
+	@Override
+	protected void onRequestPurchaseResponse(RequestPurchase request,
+			ResponseCode responseCode) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void onRestoreTransactionsResponse(RestoreTransactions request,
+			ResponseCode responseCode) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }

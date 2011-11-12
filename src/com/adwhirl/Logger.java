@@ -58,6 +58,6 @@ public class Logger {
 	 * We only want logging i debug mode
 	 */
 	private static boolean isLoggingEnabled() {
-		return Const.DEBUG;
+		return true;
 	}
 }

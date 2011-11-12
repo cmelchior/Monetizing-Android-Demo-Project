@@ -9,6 +9,9 @@
     <!-- AdWhirl permission -->
     <uses-permission android:name="android.permission.INTERNET" />
     
+    <!-- Billing permission -->
+	<uses-permission android:name="com.android.vending.BILLING" />
+    
     <application
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
@@ -32,6 +35,18 @@
 		<activity
             android:configChanges="keyboardHidden|orientation|keyboard"
             android:name="com.inmobi.androidsdk.IMBrowserActivity" />
-            
+
+		<!-- Billing services/receivers -->
+        <service android:name="dk.trifork.geeknight.billing.BillingService" />
+
+        <receiver android:name="dk.trifork.geeknight.billing.BillingReceiver">
+            <intent-filter>
+                <action android:name="com.android.vending.billing.IN_APP_NOTIFY" />
+                <action android:name="com.android.vending.billing.RESPONSE_CODE" />
+                <action android:name="com.android.vending.billing.PURCHASE_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
+		
+		
     </application>
 </manifest>
