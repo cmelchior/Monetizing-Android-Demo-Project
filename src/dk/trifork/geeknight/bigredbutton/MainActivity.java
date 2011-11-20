@@ -88,18 +88,9 @@ public class MainActivity extends InAppBillingActivity implements android.view.V
 		adsLayout.setAdWhirlInterface(this);
 		adsLayout.setMaxWidth((int)(diWidth * density));
 		adsLayout.setMaxHeight((int)(diHeight * density));
-		
 		container.addView(adsLayout);		
 	}
 	
-	
-	
-	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		// TODO Auto-generated method stub
-		return super.onPrepareOptionsMenu(menu);
-	}
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
