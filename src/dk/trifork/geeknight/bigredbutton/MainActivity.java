@@ -1,6 +1,5 @@
 package dk.trifork.geeknight.bigredbutton;
 
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,7 +16,6 @@ import com.adwhirl.AdWhirlTargeting;
 import dk.trifork.geeknight.billing.Consts.PurchaseState;
 import dk.trifork.geeknight.billing.Consts.ResponseCode;
 import dk.trifork.geeknight.billing.InAppBillingActivity;
-import dk.trifork.geeknight.billing.PurchaseDatabase;
 import dk.trifork.geeknight.billing.requests.RequestPurchase;
 import dk.trifork.geeknight.billing.requests.RestoreTransactions;
 
@@ -143,27 +141,33 @@ public class MainActivity extends InAppBillingActivity implements android.view.V
 	}
 
 	@Override
-	protected void onPurchaseStateChange(PurchaseState purchaseState,
-			String itemId, int quantity, long purchaseTime,
-			String developerPayload) {
-		
-		if (itemId.equals("android.test.purchased") && purchaseState == PurchaseState.PURCHASED) {
-        	button.setBackgroundDrawable(getResources().getDrawable(R.drawable.green_button));
+	protected void onPurchaseStateChange(PurchaseState purchaseState, String itemId, 
+			int quantity, long purchaseTime, String developerPayload) {
+
+		if (itemId.equals("android.test.purchased")) {
+			if (purchaseState == PurchaseState.PURCHASED) {
+				PersistentState.setAppUpgraded(true);
+				button.setBackgroundDrawable(getResources().getDrawable(R.drawable.green_button));
+
+			} else {
+				PersistentState.setAppUpgraded(false);
+				button.setBackgroundDrawable(getResources().getDrawable(R.drawable.red_button));
+			}
 		}
 	}
 
 	@Override
-	protected void onRequestPurchaseResponse(RequestPurchase request,
-			ResponseCode responseCode) {
-		// TODO Auto-generated method stub
-		
+	protected void onRequestPurchaseResponse(RequestPurchase request, ResponseCode responseCode) {
+		if (responseCode != ResponseCode.RESULT_OK) {
+			// Request to purchase failed
+			// Chance to show a message to the user
+		}
 	}
 
 	@Override
-	protected void onRestoreTransactionsResponse(RestoreTransactions request,
-			ResponseCode responseCode) {
-		// TODO Auto-generated method stub
-		
+	protected void onRestoreTransactionsResponse(RestoreTransactions request, ResponseCode responseCode) {
+		if (responseCode == ResponseCode.RESULT_OK) {
+			PersistentState.setPurchasesInitialized(true);
+		}
 	}
-	
 }

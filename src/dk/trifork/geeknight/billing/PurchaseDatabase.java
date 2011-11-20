@@ -129,7 +129,7 @@ public class PurchaseDatabase {
     public synchronized int updatePurchase(String orderId, String productId,
             PurchaseState purchaseState, long purchaseTime, String developerPayload) {
         insertOrder(orderId, productId, purchaseState, purchaseTime, developerPayload);
-        Cursor cursor = mDb.query(PURCHASE_HISTORY_TABLE_NAME, HISTORY_COLUMNS,
+        Cursor cursor = mDb.query(PURCHASE_HISTORY_TABLE_NAME, HISTORY_COLUMNS,  
                 HISTORY_PRODUCT_ID_COL + "=?", new String[] { productId }, null, null, null, null);
         if (cursor == null) {
             return 0;
