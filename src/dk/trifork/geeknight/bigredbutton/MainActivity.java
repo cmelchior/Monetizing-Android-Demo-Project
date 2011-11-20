@@ -154,6 +154,12 @@ public class MainActivity extends InAppBillingActivity implements android.view.V
 				button.setBackgroundDrawable(getResources().getDrawable(R.drawable.red_button));
 			}
 		}
+		
+		// Test state changes (should be removed in a real application
+		if (itemId.equals("android.test.refunded") && purchaseState == PurchaseState.REFUNDED) {
+			PersistentState.setAppUpgraded(false);
+			button.setBackgroundDrawable(getResources().getDrawable(R.drawable.red_button));
+		}
 	}
 
 	@Override
