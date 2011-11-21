@@ -211,7 +211,6 @@ public abstract class InAppBillingActivity extends Activity implements OnClickLi
     	requestPurchase(productId, null);
     }
     
-    
     /**
      * Check if a given item is purchased
      */
