@@ -143,6 +143,8 @@ public class SimpleCrypto {
 	/**
 	 * Creates a SHA-1 hash of any deviceId. 
 	 * If SHA-1 isn't available, just return the deviceId.
+	 * 
+	 * @author Christian Melchior
 	 */
 	private static String createHashedDeviceId(String deviceId) {
 		if (deviceId == null) {

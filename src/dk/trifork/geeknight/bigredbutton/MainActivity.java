@@ -108,8 +108,8 @@ public class MainActivity extends InAppBillingActivity implements android.view.V
 	public boolean onOptionsItemSelected(MenuItem item) {
 		
 		switch(item.getItemId()) {
-		case OPTION_RESTORE: restoreDatabase();
-		case OPTION_PURCHASE: requestPurchase("");
+		case OPTION_RESTORE: restorePurchases();
+		case OPTION_PURCHASE: requestPurchase("upgrade");
 		case OPTION_TEST_PURCHASED: requestPurchase("android.test.purchased"); break;
 		case OPTION_TEST_CANCELED: requestPurchase("android.test.canceled"); break;
 		case OPTION_TEST_REFUNDED: requestPurchase("android.test.refunded"); break;
@@ -125,10 +125,6 @@ public class MainActivity extends InAppBillingActivity implements android.view.V
 	@Override
 	public void adWhirlGeneric() {
 		// Do nothing
-	}
-
-	@Override
-	protected void onBillingSupported(boolean supported) {
 	}
 
 	@Override
@@ -151,6 +147,11 @@ public class MainActivity extends InAppBillingActivity implements android.view.V
 			PersistentState.setAppUpgraded(false);
 			button.setBackgroundDrawable(getResources().getDrawable(R.drawable.red_button));
 		}
+	}
+
+	@Override
+	protected void onBillingSupported(boolean supported) {
+		// Do nothing
 	}
 
 	@Override

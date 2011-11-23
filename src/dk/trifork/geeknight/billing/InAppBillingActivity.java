@@ -192,7 +192,7 @@ public abstract class InAppBillingActivity extends Activity implements OnClickLi
      * or the user wiped data. We do not want to do this on every startup, rather, we want to do
      * only when the database needs to be initialized.
      */
-    protected void restoreDatabase() {
+    protected void restorePurchases() {
     	mBillingService.restoreTransactions();
         Toast.makeText(this, R.string.restoring_transactions, Toast.LENGTH_LONG).show();
     }
